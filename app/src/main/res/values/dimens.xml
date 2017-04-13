@@ -1,0 +1,13 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="marginToolbarLogoEnd">50dp</dimen>
+    <dimen name="marginSmall">10dp</dimen>
+    <dimen name="marginToolbarTitle">10dp</dimen>
+    <dimen name="hToolbar">100dp</dimen>
+    <dimen name="width_round_button">100dp</dimen>
+    <dimen name="height_round_button">16dp</dimen>
+    <dimen name="radius_button">14dp</dimen>
+    <dimen name="hHolderView">200dp</dimen>
+</resources>

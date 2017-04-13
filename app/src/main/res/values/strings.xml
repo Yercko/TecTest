@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">TecTest</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="location_default_text">localizacion por defecto</string>
+    <string name="parking_privado">Privado</string>
+    <string name="parking_publico">Publico</string>
+    <string name="PRF_EDITFORM_OK">Aceptar</string>
+    <string name="PRF_SUCCESS_TITLE">¡Gracias!</string>
+    <string name="BTN_CLOSE">Cerrar</string>
+    <string name="ACC_PERMISSION_TITLE">¿Nos das permiso?</string>
+    <string name="ACC_PERMISSION_BUTTON">DAR PERMISOS</string>
+    <string name="ACC_PERMISSION_MAPS">Necesitamos acceder al servicio de geolocalización para obtener la localización actual</string>
+
+</resources>
