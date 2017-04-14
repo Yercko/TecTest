@@ -17,5 +17,5 @@ public class Constants {
     /**
      * Retrofit
      */
-
+    public static String CONSUMER_KEY = "iC6ECKhSIMqqqvlZuk0EXNapcm4U8US213mZsWqz";
 }

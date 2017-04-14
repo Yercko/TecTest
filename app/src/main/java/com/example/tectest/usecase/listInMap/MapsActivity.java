@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import com.arsy.maps_library.MapRipple;
+import com.example.tectest.data.PhotoList;
+import com.example.tectest.services.PhotoService;
 import com.example.tectest.utils.Constants;
 import com.example.tectest.R;
 import com.example.tectest.utils.DialogManager;
@@ -27,8 +29,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,View.OnClickListener {
 
@@ -122,8 +135,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 requestPermissions(permissions.toArray(new String[permissions.size()]), REQUEST_CODE_SOME_FEATURES_PERMISSIONS);
             }
             else{
-                String location_context = Context.LOCATION_SERVICE;
-                LocationManager locationManager = (LocationManager) activity.getSystemService(location_context);
+                LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
                 List<String> providers = locationManager.getProviders(true);
                 for (String provider : providers) {
                     Location location = locationManager.getLastKnownLocation(provider);
@@ -206,5 +218,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     };
 
+    private void getRepos(String lat, String lng, String radio ) {
+        //zoom = 14 - ln(radius)/ln(2)
+//throw  round on there to make sure we get an integer
+//and don't make the g-maps API angry
+        //radiusToZoom: function(radius){
+         //   return Math.round(14-Math.log(radius)/Math.LN2);
+        //}
+        //pixel = 156543.03392 * Math.cos(lat() * Math.PI / 180) / Math.pow(2, zoom)
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(final Chain chain) throws IOException {
+                        Request request = chain.request();
+                        HttpUrl url = request.url().newBuilder()
+                                .addQueryParameter("consumer_key", Constants.CONSUMER_KEY).build();
+                        request = request.newBuilder().url(url).build();
+                        return chain.proceed(request);
+                    }
+                })
+                .build();
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.500px.com")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        PhotoService service = retrofit.create(PhotoService.class);
+        Call<PhotoList> call = service.getPhotoAround(lat+","+lng+","+radio+"km");
+
+        call.enqueue(new Callback<PhotoList>() {
+            @Override
+            public void onResponse(Call<PhotoList> call, Response<PhotoList> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<PhotoList> call, Throwable t) {
+
+            }
+        });
+    }
 }
